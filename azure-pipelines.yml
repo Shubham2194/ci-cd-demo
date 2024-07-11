@@ -5,32 +5,19 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  gkeCluster: 'proview-dev-gke '
+  gkeCluster: 'proview-dev-gke'
   gkeZone: 'asia-southeast1'
-  gkeProject: 'endless-elysium-402509 '
+  gkeProject: 'endless-elysium-402509'
   helmChartRepo: 'https://github.com/Shubham2194/ci-cd-demo.git'
   helmChartPath: 'nginx'
-  helmReleaseName: 'azure-release'
-  namespace: 'backend'
-  imageName: 'nginx'
-  registry: 'asia-southeast1-docker.pkg.dev/endless-elysium-402509/proview-backend-dev'
+  helmReleaseName: 'nginx-release'
+  namespace: 'default'
 
 stages:
-- stage: Build
+- stage: Deploy
   jobs:
   - job: Deploy
     steps:
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.x'
-        addToPath: true
-
-    - task: UseDotNet@2
-      inputs:
-        packageType: 'sdk'
-        version: '5.x'
-        installationPath: $(Agent.ToolsDirectory)/dotnet
-
     - script: |
         sudo apt-get update
         sudo apt-get install -y apt-transport-https ca-certificates gnupg
@@ -44,20 +31,18 @@ stages:
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
       displayName: 'Install Helm'
 
-    - task: gcloudCLI@0
-      inputs:
-        serviceAccountKey: '$(gcloudServiceConnection)'
-        project: '$(gkeProject)'
-        command: 'container clusters get-credentials $(gkeCluster) --zone $(gkeZone) --project $(gkeProject)'
+    - script: |
+        echo $$GCLOUD_SERVICE_KEY > gcloud-service-key.json
+        gcloud auth activate-service-account --key-file=gcloud-service-key.json
+        gcloud container clusters get-credentials $(gkeCluster) --zone $(gkeZone) --project $(gkeProject)
       displayName: 'Configure gcloud'
+      env:
+        GCLOUD_SERVICE_KEY: $(gcloudServiceConnection)
 
     - script: |
         git clone $(helmChartRepo) helm-chart
       displayName: 'Clone Helm Chart Repository'
 
-    - task: Docker@2
-   
-
     - script: |
-        helm upgrade --install $(helmReleaseName) helm-chart/$(helmChartPath) --namespace $(namespace) --set image.repository=$(registry)/$(imageName),image.tag=latest
+        helm upgrade --install $(helmReleaseName) helm-chart/$(helmChartPath) --namespace $(namespace)
       displayName: 'Deploy Helm Chart'
