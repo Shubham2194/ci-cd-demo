@@ -2,7 +2,9 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'private-pool'  # Specify the private pool name
+  demands:
+  - agent.name -equals antino  # Ensure it uses the specific agent
 
 variables:
   gkeCluster: 'proview-dev-gke'
@@ -17,6 +19,8 @@ stages:
 - stage: Deploy
   jobs:
   - job: Deploy
+    pool:
+      name: 'private-pool'  # Specify the private pool name again if required for the job
     steps:
     - script: |
         sudo apt-get update
