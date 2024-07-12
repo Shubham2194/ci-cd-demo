@@ -2,9 +2,9 @@ trigger:
 - main
 
 pool:
-  name: 'Azure Pipelines'
+  name: 'private-pool'
   demands:
-  - agent.name -equals Hosted Agent
+  - agent.name -equals antino
 
 variables:
   gkeCluster: 'proview-dev-gke'
@@ -20,7 +20,7 @@ stages:
   jobs:
   - job: Deploy
     pool:
-      name: 'Azure Pipelines'
+      name: 'private-pool'
     steps:
     - script: |
         sudo apt-get update
