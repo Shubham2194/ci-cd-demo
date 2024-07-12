@@ -2,9 +2,9 @@ trigger:
 - main
 
 pool:
-  name: 'private-pool'  # Specify the private pool name
+  name: 'Azure Pipelines'
   demands:
-  - agent.name -equals antino  # Ensure it uses the specific agent
+  - agent.name -equals Hosted Agent
 
 variables:
   gkeCluster: 'proview-dev-gke'
@@ -13,7 +13,7 @@ variables:
   helmChartRepo: 'https://github.com/Shubham2194/ci-cd-demo.git'
   helmChartPath: 'nginx'
   helmReleaseName: 'nginx-release'
-  namespace: 'default'
+  namespace: 'backend'
 
 stages:
 - stage: Deploy
