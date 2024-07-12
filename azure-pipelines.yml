@@ -1,10 +1,6 @@
 trigger:
 - main
 
-# pool:
-#   name: 'private-pool'
-#   vmImage: 'ubuntu-latest'
-
 variables:
   gkeCluster: 'proview-dev-gke'
   gkeZone: 'asia-southeast1'
@@ -18,11 +14,8 @@ stages:
 - stage: Build
   jobs:
   - job: Build
-    # pool:
-    #   name: 'private-pool'
-    #   vmImage: 'ubuntu-latest'
     pool:
-      vmImage: 'ubuntu-latest'    
+      name: 'private-pool'
     steps:
     - task: DownloadBuildArtifacts@1
       inputs:
@@ -55,11 +48,10 @@ stages:
 - stage: Deploy
   jobs:
   - job: Deploy
-    # pool:
-    #   name: 'private-pool'
-    #   vmImage: 'ubuntu-latest'
     pool:
-      vmImage: 'ubuntu-latest'    
+      name: 'private-pool'
+      vmImage: 'ubuntu-latest'
+   
     steps:
     - script: |
         git clone $(helmChartRepo) helm-chart
