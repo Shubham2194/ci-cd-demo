@@ -19,8 +19,8 @@ stages:
 - stage: Deploy
   jobs:
   - job: Deploy
-    # pool:
-    #   name: 'Hosted Agent'
+    pool:
+      name: 'Azure Pipelines'
     steps:
     - script: |
         sudo apt-get update
