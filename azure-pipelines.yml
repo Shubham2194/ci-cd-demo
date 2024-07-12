@@ -3,8 +3,7 @@ trigger:
 
 pool:
   name: 'private-pool'
-  demands:
-  - agent.name -equals antino
+  vmImage: 'ubuntu-latest'
 
 variables:
   gkeCluster: 'proview-dev-gke'
@@ -21,38 +20,37 @@ stages:
   - job: Build
     pool:
       name: 'private-pool'
+      vmImage: 'ubuntu-latest'
     steps:
     - script: |
-        sudo apt-get update
-        sudo apt-get install -y apt-transport-https ca-certificates gnupg
-        curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-        sudo apt-get update
+        sudo apt-get update && \
+        sudo apt-get install -y apt-transport-https ca-certificates gnupg && \
+        curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add - && \
+        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list && \
+        sudo apt-get update && \
         sudo apt-get install -y kubectl
       displayName: 'Install kubectl'
-
     - script: |
         curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
       displayName: 'Install Helm'
-
     - script: |
         echo $$GCLOUD_SERVICE_KEY > gcloud-service-key.json
         gcloud auth activate-service-account --key-file=gcloud-service-key.json
         gcloud container clusters get-credentials $(gkeCluster) --zone $(gkeZone) --project $(gkeProject)
       displayName: 'Configure gcloud'
       env:
-        GCLOUD_SERVICE_KEY: $(gcloudServiceConnection)  
+        GCLOUD_SERVICE_KEY: $(gcloudServiceConnection)
 
 - stage: Deploy
   jobs:
   - job: Deploy
     pool:
-      name: 'private-pool'  
+      name: 'private-pool'
+      vmImage: 'ubuntu-latest'
     steps:
     - script: |
         git clone $(helmChartRepo) helm-chart
       displayName: 'Clone Helm Chart Repository'
-
     - script: |
         helm upgrade --install $(helmReleaseName) helm-chart/$(helmChartPath) --namespace $(namespace)
       displayName: 'Deploy Helm Chart'
