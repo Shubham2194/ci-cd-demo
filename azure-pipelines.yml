@@ -17,24 +17,18 @@ stages:
     pool:
       name: 'private-pool'
     steps:
-    - task: DownloadBuildArtifacts@1
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'demo-artifact'
-        downloadPath: '$(System.ArtifactsDirectory)'
       
-    - script: |
-        sudo apt-get update
-        sudo apt-get install -y apt-transport-https ca-certificates gnupg
-        curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-        sudo apt-get update
-        sudo apt-get install -y kubectl
-      displayName: 'Install kubectl'
-    - script: |
-        curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-      displayName: 'Install Helm'
+    # - script: |
+    #     sudo apt-get update
+    #     sudo apt-get install -y apt-transport-https ca-certificates gnupg
+    #     curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    #     echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+    #     sudo apt-get update
+    #     sudo apt-get install -y kubectl
+    #   displayName: 'Install kubectl'
+    # - script: |
+    #     curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+    #   displayName: 'Install Helm'
 
 
     - script: |
