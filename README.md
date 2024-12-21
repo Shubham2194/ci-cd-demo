@@ -1,77 +1,44 @@
-# Simple React JS Project
+### This repository is no longer maintained!
 
-## What is the use of this Repo
+**For the most up to date test app to get you started on Heroku, head on over to [`node-js-getting-started`](https://github.com/heroku/node-js-getting-started).**
 
-This Project is a Simple ReactJS Project which demonstrates the following
-1. Creating a Component in React
-2. Making HTTP calls
-3. Communicating between parent and child component
-4. Using Bootstrap along with React
-5. Using Basic Routing in React
+---
 
-The project Template can be used to build bigger projects
+# node-js-sample
 
-## Live Application URL
+A barebones Node.js app using [Express 4](http://expressjs.com/).
 
-### https://aditya-sridhar.github.io/simple-reactjs-app
-This URL has the application deployed in
+## Running Locally
 
-## Prerequisites
+Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
 
-### Install Node JS
-Refer to https://nodejs.org/en/ to install nodejs
-
-### Install create-react-app
-Install create-react-app npm package globally. This will help to easily run the project and also build the source files easily. Use the following command to install create-react-app
-
-```bash
-npm install -g create-react-app
-```
-## Live Application URL
-
-The Application is deployed in https://aditya-sridhar.github.io/simple-reactjs-app
-
-Click on the link to see the application
-
-## Cloning and Running the Application in local
-
-Clone the project into local
-
-Install all the npm packages. Go into the project folder and type the following command to install all npm packages
-
-```bash
+```sh
+git clone git@github.com:heroku/node-js-sample.git # or clone your own fork
+cd node-js-sample
 npm install
-```
-
-In order to run the application Type the following command
-
-```bash
 npm start
 ```
 
-The Application Runs on **localhost:3000**
+Your app should now be running on [localhost:5000](http://localhost:5000/).
 
-## Application design
+## Deploying to Heroku
 
-#### Components
+```
+heroku create
+git push heroku master
+heroku open
+```
 
-1. **Customers** Component : This Component displays a list of customers. This Component gets the data from a json file in assets folder
+Alternatively, you can deploy your own copy of the app using the web-based flow:
 
-2. **CustomerDetails** Component : This Component Displays the details of the selected customer. This Component gets its data from a json file in assets folder as well. This Component is the Child Component of *Customers* Component
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-#### HTTP client
+## Documentation
 
-**axios** library is used to make HTTP Calls
+For more information about using Node.js on Heroku, see these Dev Center articles:
 
-#### URL
-
-The application has just one url /customerlist which ties to *Customers* Component
-
-## Resources
-
-**create-react-app** : The following link has all the commands that can be used with create-react-app
-https://github.com/facebook/create-react-app
-
-**ReactJS** : Refer to https://reactjs.org/ to understand the concepts of ReactJS
-
-**React Bootstrap** : Refer to https://react-bootstrap.github.io/getting-started/introduction/ to understand how to use React Bootstrap
+- [10 Habits of a Happy Node Hacker](https://blog.heroku.com/archives/2014/3/11/node-habits)
+- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
+- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
+- [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)

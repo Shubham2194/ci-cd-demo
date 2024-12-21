@@ -1,12 +1,9 @@
-FROM node:latest
+FROM node:alpine
 
 WORKDIR /app
 
-ADD package*.json ./
-
-ADD . ./
+COPY . .
 
 RUN npm install
 
 CMD ["npm" , "start"]
-
